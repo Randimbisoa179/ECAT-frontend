@@ -91,7 +91,7 @@ export const HeroSection = React.forwardRef<HTMLDivElement, HeroProps>(
                     <img
                       src={image.src}
                       alt={image.alt}
-                      className="object-cover w-full  rounded-3xl border-2 border-foreground/10 shadow-2xl h-xl"
+                      className="object-cover mx-auto  rounded-3xl border-2 border-foreground/10 shadow-2xl h-full"
                     />
                   </div>
                 );
