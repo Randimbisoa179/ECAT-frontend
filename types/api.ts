@@ -22,12 +22,14 @@ export interface Actualite {
   contenu?: string;
   image?: string;
   date_publication: string;
+  categorie: string; // Ajout de la catégorie
 }
 
 export interface ActualiteCreate {
   titre: string;
   contenu?: string;
   image?: string;
+  categorie: string; // Ajout de la catégorie
 }
 
 // Types pour l'admin
