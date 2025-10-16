@@ -21,6 +21,9 @@ interface AdminData {
 }
 
 export default function ComptePage() {
+const [showCreateAdminModal, setShowCreateAdminModal] = useState(false);
+const [newAdminData, setNewAdminData] = useState({ nom: '', email: '', password: '' });
+const [creating, setCreating] = useState(false);
   const router = useRouter();
   const [adminData, setAdminData] = useState<AdminData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -169,6 +172,34 @@ export default function ComptePage() {
       confirmPassword: ''
     });
   };
+  
+// --- FONCTION DE CREATION ADMIN ---
+const handleCreateAdmin = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setCreating(true);
+  try {
+    const token = AuthService.getToken();
+    const response = await fetch('http://localhost:5000/api/admins', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...newAdminData, role: 'admin' }),
+    });
+
+    if (response.ok) {
+      notificationService.success('Nouveau compte admin créé avec succès !');
+      setShowCreateAdminModal(false);
+      setNewAdminData({ nom: '', email: '', password: '' });
+    } else {
+      const error = await response.json();
+      throw new Error(error.detail || 'Erreur lors de la création du compte');
+    }
+  } catch (err: any) {
+    notificationService.error(err.message);
+    console.error(err);
+  } finally {
+    setCreating(false);
+  }
+};
 
   if (loading) {
     return (
@@ -337,7 +368,7 @@ export default function ComptePage() {
                   variant="outline"
                   onClick={cancelEdit}
                   disabled={submitting}
-                  className="border-gray-600 text-gray-300 hover:bg-gray-700"
+                  className="border-gray-600 text-gray-300 hover:bg-gray-700 bg-blue"
                 >
                   <X className="w-4 h-4 mr-2" />
                   Annuler
@@ -366,10 +397,17 @@ export default function ComptePage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+            <Button
+  onClick={() => setShowCreateAdminModal(true)}
+  className="w-full justify-start bg-gradient-to-r from-purple-600 to-pink-600 border-0"
+>
+  <User className="w-4 h-4 mr-2"/> Créer un nouveau compte admin
+</Button>
+
               <Button
                 variant="outline"
                 onClick={() => setEditing(true)}
-                className="w-full justify-start border-gray-600 text-gray-300 hover:bg-gray-700"
+                className="w-full justify-start border-gray-600 text-gray-300 hover:bg-gray-700 bg-blue"
               >
                 <Edit3 className="w-4 h-4 mr-2" />
                 Modifier le profil
@@ -379,7 +417,7 @@ export default function ComptePage() {
                 <DialogTrigger asChild>
                   <Button
                     variant="outline"
-                    className="w-full justify-start border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-300"
+                    className="w-full justify-start border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-300 bg-red"
                   >
                     <Trash2 className="w-4 h-4 mr-2" />
                     Supprimer le compte
@@ -442,6 +480,34 @@ export default function ComptePage() {
               </div>
             </CardContent>
           </Card>
+          
+          {/* creation de nouveau compte admin*/}
+          <Dialog open={showCreateAdminModal} onOpenChange={setShowCreateAdminModal}>
+  <DialogContent className="bg-gray-800 border border-gray-700 text-white max-w-md rounded-2xl shadow-2xl">
+    <DialogHeader>
+      <DialogTitle>Créer un compte administrateur</DialogTitle>
+    </DialogHeader>
+    <form onSubmit={handleCreateAdmin} className="space-y-4 mt-2">
+      <div>
+        <Label htmlFor="newNom">Nom</Label>
+        <Input id="newNom" value={newAdminData.nom} onChange={(e) => setNewAdminData(prev => ({ ...prev, nom: e.target.value }))} className="bg-gray-700 border-gray-600 text-white" required />
+      </div>
+      <div>
+        <Label htmlFor="newEmail">Email</Label>
+        <Input id="newEmail" type="email" value={newAdminData.email} onChange={(e) => setNewAdminData(prev => ({ ...prev, email: e.target.value }))} className="bg-gray-700 border-gray-600 text-white" required />
+      </div>
+      <div>
+        <Label htmlFor="newPassword">Mot de passe</Label>
+        <Input id="newPassword" type="password" value={newAdminData.password} onChange={(e) => setNewAdminData(prev => ({ ...prev, password: e.target.value }))} className="bg-gray-700 border-gray-600 text-white" required />
+      </div>
+      <DialogFooter className="flex justify-end space-x-3">
+        <Button type="button" variant="outline"  className="bg-blue" onClick={() => setShowCreateAdminModal(false)}>Annuler</Button>
+        <Button type="submit" disabled={creating} className="bg-purple-600 hover:bg-purple-700">{creating ? 'Création...' : 'Créer'}</Button>
+      </DialogFooter>
+    </form>
+  </DialogContent>
+</Dialog>
+
         </div>
       </div>
     </div>

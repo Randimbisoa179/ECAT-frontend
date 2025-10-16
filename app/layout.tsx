@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
-  title: 'ECAT TARATRA - Plateforme Administrative',
-  description: 'Plateforme de gestion des formations et actualités ECAT TARATRA',
+  title: 'ECAT TARATRA ',
+  description: 'Site web  ECAT TARATRA',
 };
 
 export default function RootLayout({
@@ -13,10 +13,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className="dark">
-      <body className="font-sans antialiased bg-gradient-to-br from-gray-900 via-black to-gray-900 min-h-screen text-white">
+    <html lang="fr" className="black">
+      <body className="font-sans antialiased bg-gradient-to-br from-gray-900 via-black to-gray-900 w-full h-full text-white">
         {children}
-        <Toaster 
+        <Toaster
           position="top-right"
           richColors
           closeButton

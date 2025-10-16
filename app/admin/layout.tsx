@@ -1,140 +1,282 @@
+'use client';
+
 import type { Metadata } from 'next';
 import '../globals.css';
 import Link from 'next/link';
-import { LogOut, Bell, Settings, User, Home, Moon, Sun } from 'lucide-react';
+import { LogOut, Bell, Settings, User, Home, Moon, Sun, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
-
-export const metadata: Metadata = {
-  title: 'Admin - ECAT TARATRA',
-  description: 'Interface administrateur ECAT TARATRA',
-};
+import { useState, useEffect } from 'react';
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Détection de la taille d'écran
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth >= 768) {
+        setSidebarOpen(false);
+      }
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  // Fermer la sidebar quand on clique sur un lien en mobile
+  const handleNavClick = () => {
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+  };
+
   return (
     <html lang="fr" className="dark">
       <body className="font-sans antialiased bg-gradient-to-br from-gray-900 via-black to-gray-900 min-h-screen text-white">
-        {/* Navigation moderne sombre */}
-        <nav className="bg-gray-900/80 backdrop-blur-md border-b border-gray-700 sticky top-0 z-50 shadow-lg shadow-black/20">
-          <div className="container mx-auto px-4">
-            <div className="flex justify-between items-center h-16">
-              {/* Logo et titre */}
-              <div className="flex items-center space-x-3">
-                 <div className="w-12 h-12 relative">
-            <Image
-              src="/assets/logo.png"
-              alt="ECAT TARATRA Logo"
-              width={48}
-              height={48}
-              className="rounded-lg"
+        <div className="flex h-screen">
+          {/* Overlay pour mobile */}
+          {sidebarOpen && isMobile && (
+            <div 
+              className="fixed inset-0 bg-black/50 z-40 md:hidden"
+              onClick={() => setSidebarOpen(false)}
             />
-          </div>
+          )}
+
+          {/* Sidebar */}
+          <aside className={`
+            fixed md:relative z-50
+            w-64 bg-gray-900/95 md:bg-gray-900/90 backdrop-blur-md border-r border-gray-700 
+            flex flex-col shadow-xl shadow-black/20
+            transform transition-transform duration-300 ease-in-out
+            ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+            h-screen
+          `}>
+            {/* En-tête Sidebar */}
+            <div className="p-6 border-b border-gray-700 flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 relative">
+                  <Image
+                    src="/assets/logo.png"
+                    alt="ECAT TARATRA Logo"
+                    width={48}
+                    height={48}
+                    className="rounded-lg"
+                  />
+                </div>
                 <div>
-                  <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  <h1 className="text-lg font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                     ECAT TARATRA
                   </h1>
                   <p className="text-xs text-gray-400">Administration</p>
                 </div>
               </div>
-
-              {/* Navigation centrale */}
-              <div className="hidden md:flex items-center space-x-1">
-                <NavLink href="/admin" icon={<Home className="w-4 h-4" />}>
-                  Dashboard
-                </NavLink>
-                <NavLink href="/admin/formations" icon={<FileTextIcon className="w-4 h-4" />}>
-                  Formations
-                </NavLink>
-                <NavLink href="/admin/actualites" icon={<NewspaperIcon className="w-4 h-4" />}>
-                  Actualités
-                </NavLink>
-              </div>
-
-              {/* Actions utilisateur */}
-              <div className="flex items-center space-x-2">
-               {/* Menu utilisateur */}
               
-<DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button variant="ghost" className="flex items-center space-x-2 px-3 text-gray-300 hover:text-white hover:bg-gray-800">
-      <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-md">
-        <User className="w-4 h-4 text-white" />
-      </div>
-      <span className="hidden sm:block text-sm font-medium">Admin</span>
-    </Button>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent align="end" className="w-56 bg-gray-800 border-gray-700 text-white">
-    <DropdownMenuLabel className="text-gray-300">Mon Compte</DropdownMenuLabel>
-    <DropdownMenuSeparator className="bg-gray-700" />
-    <DropdownMenuItem className="text-gray-300 hover:bg-gray-700 focus:bg-gray-700 focus:text-white">
-      <Link href="/admin/compte" className="flex items-center w-full">
-        <User className="w-4 h-4 mr-2" />
-        Mon Compte
-      </Link>
-    </DropdownMenuItem>
-    <DropdownMenuItem className="text-gray-300 hover:bg-gray-700 focus:bg-gray-700 focus:text-white">
-      <Settings className="w-4 h-4 mr-2" />
-      Paramètres
-    </DropdownMenuItem>
-    <DropdownMenuSeparator className="bg-gray-700" />
-    <DropdownMenuItem className="text-red-400 hover:bg-red-500/10 focus:bg-red-500/10 focus:text-red-400">
-      <LogOut className="w-4 h-4 mr-2" />
-      <Link href="/" className="flex items-center w-full">
-        Déconnexion
-      </Link>
-    </DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>
+              {/* Bouton fermer pour mobile */}
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="md:hidden text-gray-400 hover:text-white"
+                onClick={() => setSidebarOpen(false)}
+              >
+                <X className="w-5 h-5" />
+              </Button>
+            </div>
+
+            {/* Navigation Sidebar */}
+            <nav className="flex-1 p-4 space-y-2">
+              <SidebarLink href="/admin" icon={<Home className="w-5 h-5" />} onClick={handleNavClick}>
+                Dashboard
+              </SidebarLink>
+              <SidebarLink href="/admin/formations" icon={<FileTextIcon className="w-5 h-5" />} onClick={handleNavClick}>
+                Formations
+              </SidebarLink>
+              <SidebarLink href="/admin/actualites" icon={<NewspaperIcon className="w-5 h-5" />} onClick={handleNavClick}>
+                Actualités
+              </SidebarLink>
+            </nav>
+
+            {/* Pied de page Sidebar */}
+            <div className="p-4 border-t border-gray-700">
+              <div className="flex items-center space-x-3 p-3 bg-gray-800/50 rounded-lg">
+                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-md">
+                  <User className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-white truncate">Admin</p>
+                  <p className="text-xs text-gray-400 truncate">Administrateur</p>
+                </div>
+              </div>
+              
+              {/* Menu déroulant pour mobile */}
+              <div className="mt-3 space-y-1 md:hidden">
+                <MobileNavItem href="/admin/compte" icon={<User className="w-4 h-4" />} onClick={handleNavClick}>
+                  Mon Compte
+                </MobileNavItem>
+           
+                <MobileNavItem href="/" icon={<LogOut className="w-4 h-4" />} onClick={handleNavClick} isLogout>
+                  Déconnexion
+                </MobileNavItem>
               </div>
             </div>
-          </div>
-        </nav>
+          </aside>
 
-        {/* Contenu principal */}
-        <main className="container mx-auto py-8 px-4">
-          {children}
-        </main>
+          {/* Contenu principal */}
+          <div className="flex-1 flex flex-col overflow-hidden min-w-0">
+            {/* Header supérieur */}
+            <header className="bg-gray-900/50 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-30">
+              <div className="flex justify-between items-center h-16 px-4 sm:px-6">
+                {/* Bouton menu mobile */}
+                <div className="flex items-center">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="md:hidden text-gray-400 hover:text-white"
+                    onClick={() => setSidebarOpen(true)}
+                  >
+                    <Menu className="w-5 h-5" />
+                  </Button>
+                  
+                  {/* Breadcrumb ou titre de page */}
+                  <div className="ml-4">
+                    <h2 className="text-lg font-semibold text-gray-200">
+                      Tableau de Bord
+                    </h2>
+                    <p className="text-sm text-gray-400 hidden sm:block">
+                      Interface d'administration
+                    </p>
+                  </div>
+                </div>
 
-        {/* Footer sombre */}
-        <footer className="bg-gray-900/60 backdrop-blur-sm border-t border-gray-800 mt-16">
-          <div className="container mx-auto px-4 py-6">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="flex items-center space-x-2 mb-4 md:mb-0">
-                   <div className="w-12 h-12 relative">
-            <Image
-              src="/assets/logo.png"
-              alt="ECAT TARATRA Logo"
-              width={48}
-              height={48}
-              className="rounded-lg"
-            />
-          </div>
-                <span className="font-semibold text-gray-300">ECAT TARATRA</span>
+                {/* Actions utilisateur - cachées sur mobile */}
+                <div className="flex items-center space-x-2 sm:space-x-4">
+                
+
+                  {/* Menu utilisateur (desktop seulement) */}
+                  <div className="hidden md:block">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="flex items-center space-x-2 text-gray-300 hover:text-white hover:bg-gray-800">
+                          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-md">
+                            <User className="w-4 h-4 text-white" />
+                          </div>
+                          <span className="text-sm font-medium">Admin</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-56 bg-gray-800 border-gray-700 text-white">
+                        <DropdownMenuLabel className="text-gray-300">Mon Compte</DropdownMenuLabel>
+                        <DropdownMenuSeparator className="bg-gray-700" />
+                        <DropdownMenuItem className="text-gray-300 hover:bg-gray-700 focus:bg-gray-700 focus:text-white">
+                          <Link href="/admin/compte" className="flex items-center w-full">
+                            <User className="w-4 h-4 mr-2" />
+                            Mon Compte
+                          </Link>
+                        </DropdownMenuItem>
+                     
+                        <DropdownMenuSeparator className="bg-gray-700" />
+                        <DropdownMenuItem className="text-red-400 hover:bg-red-500/10 focus:bg-red-500/10 focus:text-red-400">
+                          <LogOut className="w-4 h-4 mr-2" />
+                          <Link href="/" className="flex items-center w-full">
+                            Déconnexion
+                          </Link>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
               </div>
-              <div className="text-sm text-gray-400">
-                © 2025 Plateforme Administrative. Tous droits réservés.
+            </header>
+
+            {/* Contenu */}
+            <main className="flex-1 overflow-auto p-4 sm:p-6">
+              <div className="max-w-7xl mx-auto">
+                {children}
               </div>
-            </div>
+            </main>
+
+            {/* Footer */}
+            <footer className="bg-gray-900/40 backdrop-blur-sm border-t border-gray-800 py-4">
+              <div className="container mx-auto px-4 sm:px-6">
+                <div className="flex flex-col md:flex-row justify-between items-center">
+                  <div className="flex items-center space-x-2 mb-2 md:mb-0">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 relative">
+                      <Image
+                        src="/assets/logo.png"
+                        alt="ECAT TARATRA Logo"
+                        width={32}
+                        height={32}
+                        className="rounded"
+                      />
+                    </div>
+                    <span className="text-sm font-medium text-gray-300">ECAT TARATRA</span>
+                  </div>
+                  <div className="text-xs text-gray-400 text-center md:text-right">
+                    © 2025 Plateforme Administrative. Tous droits réservés.
+                  </div>
+                </div>
+              </div>
+            </footer>
           </div>
-        </footer>
+        </div>
       </body>
     </html>
   );
 }
 
-// Composant de lien de navigation sombre
-function NavLink({ href, icon, children }: { href: string; icon: React.ReactNode; children: React.ReactNode }) {
+// Composant de lien sidebar
+function SidebarLink({ 
+  href, 
+  icon, 
+  children, 
+  onClick 
+}: { 
+  href: string; 
+  icon: React.ReactNode; 
+  children: React.ReactNode;
+  onClick?: () => void;
+}) {
   return (
     <Link
       href={href}
-      className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all duration-200 border border-transparent hover:border-gray-700"
+      className="flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all duration-200 border border-transparent hover:border-gray-700 group"
+      onClick={onClick}
     >
+      {icon}
+      <span>{children}</span>
+    </Link>
+  );
+}
+
+// Composant pour les liens mobiles
+function MobileNavItem({ 
+  href, 
+  icon, 
+  children, 
+  onClick,
+  isLogout = false 
+}: { 
+  href: string; 
+  icon: React.ReactNode; 
+  children: React.ReactNode;
+  onClick?: () => void;
+  isLogout?: boolean;
+}) {
+  const className = `flex items-center space-x-3 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 w-full ${
+    isLogout 
+      ? 'text-red-400 hover:bg-red-500/10 hover:text-red-300' 
+      : 'text-gray-400 hover:text-white hover:bg-gray-800'
+  }`;
+  
+  return (
+    <Link href={href} className={className} onClick={onClick}>
       {icon}
       <span>{children}</span>
     </Link>

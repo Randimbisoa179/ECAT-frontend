@@ -116,7 +116,33 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  .gradient-underline {
+    /* Le même dégradé que celui utilisé pour le texte accentué */
+    background-image: linear-gradient(to right, #ec4899, #8b5cf6);
+    /* Pink-500 (#ec4899) à Violet-600 (#8b5cf6) */
+    height: 4px;
+    /* Épaisseur du trait */
+    width: 100%;
+    display: block;
+  }
+
+  .grid-background {
+    background-image:
+      repeating-linear-gradient(0deg, #FFFFFF22 0.5px, transparent 0.5px, transparent 20px),
+      /* Lignes horizontales fines */
+      repeating-linear-gradient(90deg, #FFFFFF22 0.5px, transparent 0.5px, transparent 20px);
+    /* Lignes verticales fines */
+    background-size: 20px 20px;
+    /* Taille de chaque cellule de la grille */
+    background-color: #082C6A;
+    /* Couleur de fond réelle */
+    background-blend-mode: overlay;
+    /* Pour mieux fondre la grille avec le fond */
+    /* Vous pouvez aussi jouer avec l'opacité des couleurs dans les gradients */
   }
 }
