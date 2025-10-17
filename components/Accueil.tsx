@@ -9,6 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home, FileText, Newspaper, Contact, Menu, X } from 'lucide-react';
 
 import { Globe, Award, BookOpen } from "lucide-react"
+import Diplome from './Diplome';
+import Faq from './Faq';
 
 export default function Accueil() {
 
@@ -43,7 +45,7 @@ export default function Accueil() {
      );
 
      return (
-          <div className="min-h-screen bg-white text-gray-900">
+          <div className="min-h-screen bg-white text-gray-900 ">
                <main>
 
                     <section className="bg-[rgb(0,63,125)] text-white min-h-screen flex items-center justify-center py-8 relative overflow-hidden">
@@ -56,7 +58,7 @@ export default function Accueil() {
                               <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
 
                                    {/* Carte côté gauche sur desktop, en haut sur mobile */}
-                                   <div className="lg:w-1/3 w-full order-2 lg:order-1">
+                                   <div className="lg:w-1/3 w-full order-2 lg:order-1 px-8">
                                         <HeroSection title={title} subtitle={''} images={images} />
                                    </div>
 
@@ -100,7 +102,7 @@ export default function Accueil() {
                                         </h1>
 
                                         {/* Paragraphe principal: 16px (1rem), ajusté pour mobile avec une classe plus petite puis 1rem */}
-                                        <p className="mt-8 text-[16px] text-base md:text-lg lg:text-[1rem] font-Ingrid  max-w-2xl leading-relaxed tracking-[O.500rem]">
+                                        <p className="mt-8 text-[20px] text-base md:text-lg font-Ingrid  max-w-2xl  leading-relaxed tracking-wide ">
                                              ECAT ou Ecole de Comptabilité et d'Administration Taratra sise à Fianarantsoa est une université privée, agréée et habilitée par le Ministère de l'Enseignement Supérieur et de la Recherche Scientifique.
                                         </p>
 
@@ -136,7 +138,7 @@ export default function Accueil() {
                          </div>
                     </section>
                     {/* Section a propos */}
-                    <section className="flex flex-col md:flex-row items-center p-8 bg-gray-50">
+                    <section className="flex flex-col md:flex-row items-center p-8 px-25 bg-gray-50">
                          {/* Colonne de gauche avec titre et description */}
                          <div className="mb-4 md:mb-0 md:w-1/3">
                               <h2 className="text-[16px] lg:text-[1rem] font-Poppins font-semibold leading-tight mt-10 text-[rgb(242,114,135)]">
@@ -150,7 +152,7 @@ export default function Accueil() {
                                    </span>
                                    ?
                               </h1>
-                              <p className='text-[16px] font-Ingrid font-Darling leading-relaxed tracking-wide text-left tracking-[O.300rem]'>
+                              <p className='text-[20px] font-Ingrid font-Darling leading-relaxed tracking-wide text-left tracking-[O.300rem]'>
                                    Les diplômes sortis de l'ECAT sont reconnus par le Ministère de la fonction publique.
                               </p>
                          </div>
@@ -210,7 +212,7 @@ export default function Accueil() {
 
                                    <div className="mt-4">
                                         {/* Description */}
-                                        <p className='text-[16px] font-Ingrid font-Darling leading-relaxed tracking-wide text-center'>
+                                        <p className='text-[16px] font-Ingrid font-Darling leading-relaxed tracking-wide text-center '>
                                              Nos diplômes sont officiellement reconnus par le Ministère de la Fonction Publique.
                                         </p>
 
@@ -264,10 +266,14 @@ export default function Accueil() {
                               </div>
                          </div>
                     </section>
+
+                    {/* Section diplome */}
+                    <Diplome />
+
                     {/* Section statistiques */}
                     <section className="py-16 bg-[rgb(189,218,254)]">
                          <div className="container mx-auto px-4">
-                              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center   tracking-wide ">
                                    {/* Texte des statistiques: Utilisez 45px (H3) ou 32px (H4) selon la hiérarchie désirée. J'utilise 45px (2.812rem) pour le chiffre, et 16px (1rem) pour la description. */}
                                    <div>
                                         <div className="text-[2.812rem] md:text-[2.812rem] font-Poppins font-bold text-[rgb(13,110,253)] mb-2">+500</div>
@@ -289,6 +295,8 @@ export default function Accueil() {
                          </div>
                     </section>
 
+                    {/* Section faq */}
+                    <Faq />
                </main>
           </div>
      );
