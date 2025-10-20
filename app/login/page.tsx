@@ -21,6 +21,7 @@ import {
   XCircle,
   UserPlus,
   User,
+  ArrowLeft
 } from 'lucide-react';
 import Image from 'next/image';
 import { AuthService } from '@/lib/auth';
@@ -227,7 +228,7 @@ function LoginForm({ setShowRegisterModal }: LoginFormProps) {
       className="
         relative w-full lg:w-1/2 flex items-center justify-center min-h-[500px]
         overflow-hidden
-        lg:rounded-l-[350px]    /* ✅ Arrondi gauche doux sur grand écran */
+        lg:rounded-l-[350px]  bg-[#003F7D]  /* ✅ Arrondi gauche doux sur grand écran */
       "
       style={{
         backgroundImage:
@@ -341,8 +342,9 @@ export default function LoginPage() {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row font-Poppins overflow-hidden bg-[rgb(0,63,125)]">
+    <div className="min-h-screen flex flex-col lg:flex-row font-Poppins overflow-hidden bg-[#003F7D]">
       {/* Bloc gauche (texte de bienvenue) */}
+     <a href="/"> <ArrowLeft className="h-9 w-9" /></a>
       <div className="absolute top-40 left-10 opacity-30">
         <img
           src="/assets/Group%201000004925.svg"
@@ -351,14 +353,15 @@ export default function LoginPage() {
         />
       </div>
 
-      <div className="absolute top-10 right-10 opacity-30">
+      <div className="absolute top-10 right-10 opacity-30 ">
         <img
           src="/assets/Group%201000004925.svg"
           alt="Décoration"
           className="w-32 h-32"
         />
       </div>
-      <div className="hidden lg:flex lg:w-1/2 flex-col justify-center bg-[rgb(0,63,125)] text-white p-12 relative font-Poppins z-10">
+       
+      <div className="hidden lg:flex lg:w-1/2 flex-col justify-center bg-[#003F7D] text-white p-12 relative font-Poppins z-10">
         <div className="flex items-center space-x-3 mb-6">
           <Image
             src="/assets/logo.png"
