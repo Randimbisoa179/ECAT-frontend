@@ -198,23 +198,58 @@ export default function ActualiteList() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
+    <div className="min-h-screen bg-white">
       {/* Header amélioré */}
-      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white py-12 px-4 mb-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="flex justify-center mb-4">
-            <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
-              <BookOpen className="w-8 h-8" />
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
-            Actualités
-          </h1>
-          <p className="text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
-            Restez informé des dernières nouvelles et événements importants
-          </p>
+      <section 
+        className="bg-[rgb(0,63,125)] sm:py-32 text-center p-8 px-4 md:px-25 items-center mb-6 relative"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(0,63,125,0.8), rgba(0,63,125,0.8)), url("/assets/img-2.png")'
+        }}
+      >
+        {/* Éléments décoratifs */}
+        <div className="absolute top-20 left-10 opacity-30">
+          <img
+            src="/assets/Group%201000004925.svg"
+            alt="Décoration"
+            className="w-32 h-32"
+          />
         </div>
-      </div>
+        <div className="absolute top-20 right-10 opacity-30">
+          <img
+            src="/assets/Group%201000004925.svg"
+            alt="Décoration"
+            className="w-32 h-32"
+          />
+        </div>
+
+        {/* Contenu principal du header */}
+        <div className="mx-auto items-center text-left px-4 md:px-6 relative z-10">
+          <div className="flex flex-col items-center mb-6">
+            <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 mb-6">
+              <BookOpen className="w-8 h-8 text-white" />
+            </div>
+            
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold font-Poppins leading-tight mb-6 tracking-wide text-white text-center">
+              Nos Actualités
+            </h1>
+          </div>
+
+          <p className="mt-4 leading-relaxed text-white text-lg md:text-xl font-light tracking-wide text-center max-w-4xl mx-auto">
+            Restez informé des dernières nouvelles et événements de l'Université ECAT TARATRA. Découvrez nos actualités, annonces importantes, et suivez la vie de notre institution universitaire. Toutes les informations essentielles pour ne rien manquer de l'actualité de votre université.
+          </p>
+
+         
+        </div>
+
+        {/* Élément décoratif supplémentaire */}
+        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 opacity-30">
+          <img
+            src="/assets/Group%201000004925.svg"
+            alt="Décoration"
+            className="w-32 h-32"
+          />
+        </div>
+      </section>
 
       {/* Contenu principal */}
       <div className="max-w-7xl mx-auto px-4 py-8 -mt-8">

@@ -8,7 +8,7 @@ export default function Home() {
     <div className="min-h-screen bg-white text-gray-900">
       <Navbar />
       {/* Le reste de votre contenu avec des couleurs claires */}
-      <main className="container mx-auto px-4 py-8">
+      <main className=" mx-auto bg-[rgb(0,63,125)]">
         <FormationList />
           </main>
            <Footer />

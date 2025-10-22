@@ -7,6 +7,7 @@ import WavyUnderline from '@/components/WavyUnderline';
 import { ArrowRight, CheckSquare } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home, FileText, Newspaper, Contact, Menu, X } from 'lucide-react';
+import FeaturedFormations from '@/components/Formation';
 
 import { Globe, Award, BookOpen } from "lucide-react"
 import Diplome from './Diplome';
@@ -82,7 +83,7 @@ export default function Accueil() {
                                         {/* H1: 64px (4rem) sur desktop, ajusté pour mobile */}
                                         <h1 className="text-64px md:text-5xl lg:text-[4rem] font-semibold font-Poppins leading-tight mb-4 tracking-[O.500rem]">
                                              Apprenez où que vous soyez, avec
-                                             <span className="inline-block relative ml-4">
+                                             <span className="inline-block relative ">
                                                   {/* ECAT TARATRA utilise la même taille que H1 */}
                                                   <span className="text-white text-4xl md:text-5xl lg:text-[4rem] font-semibold font-Poppins leading-tight mb-4">ECAT TARATRA</span>
                                                   {/* Ligne décorative en bas */}
@@ -294,6 +295,7 @@ export default function Accueil() {
                               </div>
                          </div>
                     </section>
+                      <FeaturedFormations />
 
                     {/* Section faq */}
                     <Faq />

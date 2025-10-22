@@ -12,7 +12,7 @@ export default function ActualitesPage() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <Navbar />
-      <main className=" mx-auto ">
+      <main className=" mx-auto bg-[rgb(0,63,125)] ">
         <ActualiteList />
       </main>
       <Footer />
